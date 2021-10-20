@@ -8,6 +8,13 @@ def create_app(test_config=None):
   app = Flask(__name__)
   CORS(app)
 
+  @app.route('/')
+  def home():
+    return jsonify({
+        'success': True,
+        'message': 'Healthy'
+    })
+
   return app
 
 APP = create_app()
