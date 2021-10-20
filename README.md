@@ -44,4 +44,5 @@ JWT:
 https://fsnd-capstone-pranay.herokuapp.com/ 
 ## Heroku git
 https://git.heroku.com/fsnd-capstone-pranay.git
-
+## Database URL
+DATABASE_URL: postgres://qsddbmjunllkib:af8798d20d60936e0b969f76c464050f80f9899c404486e1d1a419be3663ad48@ec2-3-218-71-191.compute-1.amazonaws.com:5432/dqfnmdfqk1k69
