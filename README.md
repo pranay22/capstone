@@ -20,15 +20,15 @@ This will install all of the required packages we selected within the `requireme
 
 ## Users
 
-1. **Casting Assistant** 
+1. **Casting Assistant** -    
 Email: casting_assistant@udacity.com
 Password: Test12345
 
-2. **Casting. Director**
+2. **Casting. Director** -    
 Email: casting_director@udacity.com
 Password: Test12345
 
-3. **Executive Producer**
+3. **Executive Producer** -    
 Email: executive_producer@udacity.com
 Password: Test12345
 
