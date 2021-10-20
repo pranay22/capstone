@@ -21,16 +21,19 @@ This will install all of the required packages we selected within the `requireme
 ## Users
 
 1. **Casting Assistant** -    
-Email: casting_assistant@udacity.com
+Email: casting_assistant@udacity.com     
 Password: Test12345
+JWT:          
 
 2. **Casting. Director** -    
-Email: casting_director@udacity.com
-Password: Test12345
+Email: casting_director@udacity.com    
+Password: Test12345    
+JWT:        
 
 3. **Executive Producer** -    
-Email: executive_producer@udacity.com
-Password: Test12345
+Email: executive_producer@udacity.com    
+Password: Test12345     
+JWT:
 
 ## App URL
 https://fsnd-capstone-pranay.herokuapp.com/ 
