@@ -3,6 +3,11 @@ Udacity FSND capstone project
 
 ## Getting Started
 
+
+## Motivation for project
+
+Motivation for the project, this being the capstone project of Udacity Full-stack developer nanodegree program. This project is done in Flask, SQLAlchemy, Auth0, gunicorn and deployed using heroku. RBAC is done using Auth0. Logins for every role mentioned in the specification document is listed at the end of this document.    
+
 ### Installing Dependencies
 
 1. **Python 3.7** - Follow instructions to install the latest version of python for your platform in the [python docs](https://docs.python.org/3/using/unix.html#getting-and-installing-the-latest-version-of-python)
