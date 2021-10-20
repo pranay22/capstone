@@ -8,7 +8,7 @@ def create_app(test_config=None):
   # create and configure the app
   app = Flask(__name__)
   setup_db(app)
-  
+
   CORS(app)
   cors = CORS(app, resources={r"/*": {'origins': '*'}})
   # explicitly set 'Access-control-allow-headers/methods
@@ -98,8 +98,8 @@ def create_app(test_config=None):
 
   return app
 
-APP = create_app()
+app = create_app()
 
 if __name__ == '__main__':
-    APP.run(host='0.0.0.0', port=8080, debug=True)
-    #APP.run()
+    app.run(host='0.0.0.0', port=8080, debug=True)
+    # app.run()
