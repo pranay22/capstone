@@ -18,6 +18,19 @@ pip install -r requirements.txt
 This will install all of the required packages we selected within the `requirements.txt` file.
 
 
+## Users
+
+1. **Casting Assistant** 
+Email: casting_assistant@udacity.com
+Password: Test12345
+
+2. **Casting. Director**
+Email: casting_director@udacity.com
+Password: Test12345
+
+3. **Executive Producer**
+Email: executive_producer@udacity.com
+Password: Test12345
 
 ## App URL
 https://fsnd-capstone-pranay.herokuapp.com/ 
