@@ -72,8 +72,9 @@ def create_app(test_config=None):
     POST method for /actors
     it can create new row in actors table
     requires 'post:actors' permission
-    returns HTT 200 for valid post or other status messages for exceptions
+    returns HTTP 200 for valid post or other status messages for exceptions
     '''
+    # source/inspired by: my own code in coffee-shop project
     @app.route('/actors', methods=['POST'])
     @requires_auth(permission='post:actors')
     def post_actors(payload):
@@ -96,6 +97,79 @@ def create_app(test_config=None):
             }
             return jsonify(result), 200
 
+    '''
+    PATCH method for /actors/<id>
+    id = existing actor's id, if it exists
+    it should respond with a 404 error if <id> is not found
+    it should update the corresponding row for <id>
+    it should require the 'patch:actors' permission
+    returns HTTP 200 for valid post or other status messages for exceptions
+    '''
+    # source/inspired by: my own code in coffee-shop project
+    @app.route('/actors/<int:id>', methods=['PATCH'])
+    @requires_auth(permission='patch:actors')
+    def patch_actors(payload, id):
+        # Get the body
+        requestData = request.get_json()
+
+        # fetch actor details with the ID with one_or_none() for subsequent validity check
+        actorData = Actors.query.filter(Actors.id == id).one_or_none()
+        # throw 404 error is no actor is found with the ID
+        if not actorData:
+            abort(404)
+
+        try:
+            actorName = requestData['name']
+            actorGender = requestData['gender']
+            actorAge = requestData['age']
+
+            # update actor data is they are updated
+            if actorName:
+                actorData.name = actorName
+            if actorGender:
+                actorData.gender = actorGender
+            if actorAge:
+                actorData.age = actorAge
+            # update
+            actorData.update()
+        except Exception:
+            abort(400)
+
+        result = {
+            "success": True,
+            "actor-updated": actorData.id
+        }
+        return jsonify(result), 200
+
+    '''
+    DELETE method for /actors/<id>
+    id = existing actor's id, if it exists
+    it should respond with a 404 error if <id> is not found
+    it should delete the corresponding row for <id>
+    it should require the 'delete:actors' permission
+    returns HTTP 200 for valid delete or other status messages for exceptions
+    '''
+    # source/inspired by: my own code in coffee-shop project
+    @app.route('/actors/<int:id>', methods=['DELETE'])
+    @requires_auth(permission='delete:actors')
+    def delete_actors(payload, id):
+        # fetch actor details for the in put ID with one_or_none() for subsequent validity check
+        actorData = Actors.query.filter(Actors.id == id).one_or_none()
+        # throw HTTP 404 error if no actor is found
+        if not actorData:
+            abort(404)
+        
+        # try to delete actor and in case of error throw an exception
+        try:
+            actorData.delete()
+        except Exception:
+            abort(400)
+        
+        result = {
+                "success": True,
+                "actor-deleted": actorData.id
+            }
+        return jsonify(result), 200
 
     # Error Handling for HTTP400, 401, 403, 404, 4ß5, 422, 500, authError
     # Source: https://github.com/pranay22/Coffee-shop-fullstack-nanodegree/blob/main/backend/src/api.py
