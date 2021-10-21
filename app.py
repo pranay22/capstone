@@ -61,7 +61,7 @@ def create_app(test_config=None):
             result = {
                 'success': True,
                 'actors': paged_actors,
-                'total-actors': total_actors
+                'total_actors': total_actors
             }
             # returning HTTP 200 explicitly
             return jsonify(result), 200
@@ -137,7 +137,7 @@ def create_app(test_config=None):
 
         result = {
             "success": True,
-            "actor-updated": actorData.id
+            "actor_updated": actorData.id
         }
         return jsonify(result), 200
 
@@ -167,7 +167,127 @@ def create_app(test_config=None):
         
         result = {
                 "success": True,
-                "actor-deleted": actorData.id
+                "actor_deleted": actorData.id
+            }
+        return jsonify(result), 200
+
+    '''
+    GET method for /movies
+    Fetches all movies details
+    '''
+    @app.route('/movies', methods=['GET'])
+    @requires_auth(permission='get:movies-detail')
+    def get_movies(payload):
+        try:
+            movies = Movies.query.order_by(Movies.id).all()
+            paged_movies = paginate_view(request, movies)
+            total_movies = len(movies)
+            result = {
+                'success': True,
+                'movies': paged_movies,
+                'total_movies': total_movies
+            }
+            # returning HTTP 200 explicitly
+            return jsonify(result), 200
+        except Exception:
+            abort(422) 
+
+    '''
+    POST method for /movies
+    it can create new row in movies table
+    requires 'post:movies' permission
+    returns HTTP 200 for valid post or other status messages for exceptions
+    '''
+    # source/inspired by: my own code in coffee-shop project
+    @app.route('/movies', methods=['POST'])
+    @requires_auth(permission='post:movies')
+    def post_movies(payload):
+        # fetch Input
+        if request.data:
+            inputReqData = request.get_json()
+            try:
+                new_movie = Movies()
+                new_movie.title = inputReqData.get('title')
+                new_movie.release_date = inputReqData.get('release_date')
+                new_movie.insert()
+
+            except Exception:
+                abort(400)
+
+            result = {
+                "success": True,
+                "movie_added": new_movie.id
+            }
+            return jsonify(result), 200
+
+    '''
+    PATCH method for /movies/<id>
+    id = existing movie's id, if it exists
+    it should respond with a 404 error if <id> is not found
+    it should update the corresponding row for <id>
+    it should require the 'patch:movies' permission
+    returns HTTP 200 for valid post or other status messages for exceptions
+    '''
+    # source/inspired by: my own code in coffee-shop project
+    @app.route('/movies/<int:id>', methods=['PATCH'])
+    @requires_auth(permission='patch:movies')
+    def patch_movies(payload, id):
+        # Get the body
+        requestData = request.get_json()
+
+        # fetch movie details with the ID with one_or_none() for subsequent validity check
+        movieData = Movies.query.filter(Movies.id == id).one_or_none()
+        # throw 404 error is no movie is found with the ID
+        if not movieData:
+            abort(404)
+
+        try:
+            movieTitle = requestData['title']
+            movieReleaseDate = requestData['release_date']
+
+            # update actor data is they are updated
+            if movieTitle:
+                movieData.title = movieTitle
+            if movieReleaseDate:
+                movieData.release_date = movieReleaseDate
+            # update
+            movieData.update()
+        except Exception:
+            abort(400)
+
+        result = {
+            "success": True,
+            "modie_updated": movieData.id
+        }
+        return jsonify(result), 200
+
+    '''
+    DELETE method for /movies/<id>
+    id = existing movie's id, if it exists
+    it should respond with a 404 error if <id> is not found
+    it should delete the corresponding row for <id>
+    it should require the 'delete:movies' permission
+    returns HTTP 200 for valid delete or other status messages for exceptions
+    '''
+    # source/inspired by: my own code in coffee-shop project
+    @app.route('/movies/<int:id>', methods=['DELETE'])
+    @requires_auth(permission='delete:movies')
+    def delete_movies(payload, id):
+        # fetch movie details for the in put ID with one_or_none() for subsequent validity check
+        movieData = Movies.query.filter(Movies.id == id).one_or_none()
+        # throw HTTP 404 error if no movie is found
+        if not movieData:
+            abort(404)
+        
+        # try to delete movie and in case of error throw an exception
+        try:
+            movieData.delete()
+        except Exception:
+            abort(400)
+        
+        result = {
+                "success": True,
+                "movie_deleted": movieData.id
             }
         return jsonify(result), 200
 
