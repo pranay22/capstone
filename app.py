@@ -89,13 +89,15 @@ def create_app(test_config=None):
                 new_actor.insert()
 
             except Exception:
-                abort(400)
+                abort(422)
 
             result = {
                 "success": True,
                 "actor_added": new_actor.id
             }
             return jsonify(result), 200
+        else:
+            abort(422)
 
     '''
     PATCH method for /actors/<id>
@@ -133,7 +135,7 @@ def create_app(test_config=None):
             # update
             actorData.update()
         except Exception:
-            abort(400)
+            abort(422)
 
         result = {
             "success": True,
@@ -163,7 +165,7 @@ def create_app(test_config=None):
         try:
             actorData.delete()
         except Exception:
-            abort(400)
+            abort(422)
         
         result = {
                 "success": True,
