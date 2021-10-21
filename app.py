@@ -214,13 +214,15 @@ def create_app(test_config=None):
                 new_movie.insert()
 
             except Exception:
-                abort(400)
+                abort(422)
 
             result = {
                 "success": True,
                 "movie_added": new_movie.id
             }
             return jsonify(result), 200
+        else:
+            abort(422)
 
     '''
     PATCH method for /movies/<id>
@@ -255,7 +257,7 @@ def create_app(test_config=None):
             # update
             movieData.update()
         except Exception:
-            abort(400)
+            abort(422)
 
         result = {
             "success": True,
@@ -285,7 +287,7 @@ def create_app(test_config=None):
         try:
             movieData.delete()
         except Exception:
-            abort(400)
+            abort(422)
         
         result = {
                 "success": True,
