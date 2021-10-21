@@ -5,8 +5,8 @@ import json
 
 from sqlalchemy.sql.expression import false, null
 
-#database_path='postgresql://pranay:test123@localhost:5432/castagency'
-database_path = os.environ['DATABASE_URL']
+database_path='postgresql://pranay:test123@localhost:5432/castagency'
+#database_path = os.environ['DATABASE_URL']
 
 print(database_path)
 
