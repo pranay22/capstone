@@ -356,7 +356,7 @@ def create_app(test_config=None):
         }
         return jsonify(errorData), e.status_code
 
-  return app
+    return app
 
 app = create_app()
 
